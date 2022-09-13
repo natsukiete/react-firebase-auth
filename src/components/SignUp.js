@@ -1,4 +1,6 @@
-import { auth } from '../firebase';
+import React from 'react';
+import { getAuth,createUserWithEmailAndPassword } from "firebase/auth";
+// import { auth } from '../firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -7,14 +9,15 @@ const SignUp = () => {
   const[error,setError]=useState('');
   const handleSubmit = async(event) => {
     event.preventDefault();
+    const auth = getAuth();
     const { email, password } = event.target.elements;
     try{ await
-   auth.createUserWithEmailAndPassword(email.value, password.value);
+   createUserWithEmailAndPassword(auth,email.value, password.value);
    navigate("/");
   }catch(error){
     setError(error.message);
-  }
-  };
+    
+  }};
 
   return (
     <div>
@@ -32,7 +35,7 @@ const SignUp = () => {
         <div>
           <button>登録</button>
         </div>
-        <div>ユーザー登録の場合は
+        <div>ログインの場合は
           <Link to={'/login'}>こちら</Link>から</div>
       </form>
     </div>
